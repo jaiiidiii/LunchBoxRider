@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "939761013375",
+    "firebase_url": "https://lunchboxrider.firebaseio.com",
+    "project_id": "lunchboxrider",
+    "storage_bucket": "lunchboxrider.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:939761013375:android:16b748e34e3b9045",
+        "android_client_info": {
+          "package_name": "com.jayzonsolutions.lunchboxrider"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "939761013375-ipefulm2e2964hd4or0iltffssicdk64.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jayzonsolutions.lunchboxrider",
+            "certificate_hash": "9fc934fa6430e43df7a6eec58b96d9d05e651920"
+          }
+        },
+        {
+          "client_id": "939761013375-c4g3b89sg0mn6eg2eavcfed3e3iitfel.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8AZOTfo8mcSnChUO1D9Qrxe2mb_xkhHs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "939761013375-c4g3b89sg0mn6eg2eavcfed3e3iitfel.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
