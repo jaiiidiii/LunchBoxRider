@@ -14,7 +14,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     private static final String TAG = MyFirebaseInstanceIDService.class.getSimpleName();
 
 
-
+/*
     @Override
     public void onTokenRefresh() {
         super.onTokenRefresh();
@@ -29,7 +29,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         Intent registrationComplete = new Intent(Config.REGISTRATION_COMPLETE);
         registrationComplete.putExtra("token", refreshedToken);
         LocalBroadcastManager.getInstance(this).sendBroadcast(registrationComplete);
-    }
+    }*/
 
     private void sendRegistrationToServer(final String token) {
         // sending gcm token to server

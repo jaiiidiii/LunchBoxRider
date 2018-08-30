@@ -6,17 +6,52 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity {
 
+    ImageButton btnRequest, btnAcknowledge, btnToPick, btnToDeliver ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btnMap = findViewById(R.id.btnMap);
-        Button btnMapActivuty = findViewById(R.id.btnMapActivity);
-        btnMap.setOnClickListener(new View.OnClickListener() {
+        btnRequest = findViewById(R.id.btnRequest);
+        btnAcknowledge = findViewById(R.id.btnAcknowledge);
+        btnToPick = findViewById(R.id.btnPick);
+        btnToDeliver = findViewById(R.id.btnDeliver);
+
+        btnRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, RequestActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnAcknowledge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AcknowledgedRequestActivity.class);
+                startActivity(intent);
+            }
+        });
+        btnToPick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ToPickActivity.class);
+                startActivity(intent);
+            }
+        });
+        btnToDeliver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ToDeliverActivity.class);
+                startActivity(intent);
+            }
+        });
+
+      /*  btnMap.setOnClickListenernew View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -40,6 +75,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent map = new Intent(MainActivity.this, AcknowledgedRequestActivity.class);
                 startActivity(map);
             }
-        });
+        });*/
     }
 }

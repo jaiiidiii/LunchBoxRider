@@ -1,36 +1,28 @@
 package com.jayzonsolutions.lunchboxrider;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jayzonsolutions.lunchboxrider.Service.OrderService;
-import com.jayzonsolutions.lunchboxrider.model.ApiResponse;
 import com.jayzonsolutions.lunchboxrider.model.Order;
 
 import java.util.ArrayList;
@@ -40,13 +32,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AcknowledgedRequestActivity extends AppCompatActivity {
+public class ToDeliverActivity extends AppCompatActivity {
 
     List<Order> orderList;
     RecyclerView recyclerView;
     RecycleAdapter recyclerAdapter;
     private OrderService orderService;
-    Context context = AcknowledgedRequestActivity.this;
+    Context context = ToDeliverActivity.this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +51,7 @@ public class AcknowledgedRequestActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(1, dpToPx(), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        recyclerAdapter = new RecycleAdapter(AcknowledgedRequestActivity.this, orderList);
+        recyclerAdapter = new RecycleAdapter(ToDeliverActivity.this, orderList);
 
 
         orderService = ApiUtils.getOrderService();
@@ -169,22 +161,6 @@ public class AcknowledgedRequestActivity extends AppCompatActivity {
 
         }
 
-        void openMap(int pos)
-        {
-           String lat_long = orderList.get(pos).getLatitude() + "," + orderList.get(pos).getLongitude();
-
-            Uri gmmIntentUri = Uri.parse("google.navigation:q="+lat_long);
-// Create an Intent from gmmIntentUri. Set the action to ACTION_VIEW
-            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-// Make the Intent explicit by setting the Google Maps package
-            mapIntent.setPackage("com.google.android.apps.maps");
-            if (mapIntent.resolveActivity(getPackageManager()) != null) {
-// Attempt to start an activity that can handle the Intent
-                startActivity(mapIntent);
-            }
-
-        }
-
         @SuppressLint("SetTextI18n")
         @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
         @Override
@@ -205,60 +181,109 @@ public class AcknowledgedRequestActivity extends AppCompatActivity {
 
                     // Create a Uri from an intent string. Use the result to create an Intent.
                     //        Uri gmmIntentUri = Uri.parse("geo:24.841998,67.081242?z=20");
+                    Uri gmmIntentUri = Uri.parse("google.navigation:q=24.841998,67.081242");
+// Create an Intent from gmmIntentUri. Set the action to ACTION_VIEW
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+// Make the Intent explicit by setting the Google Maps package
+                    mapIntent.setPackage("com.google.android.apps.maps");
+                    if (mapIntent.resolveActivity(getPackageManager()) != null) {
+// Attempt to start an activity that can handle the Intent
+                        startActivity(mapIntent);
+                    }
+                    /*
+                    Log.d("pos", String.valueOf(pos));
+                    //     Toast.makeText(context, "Clicked Position =" + pos, Toast.LENGTH_SHORT).show();
+                    final ScrollView s_view = new ScrollView(context);
+                    final TextView t_view = new TextView(context);
 
+                    SpannableString DishName = new SpannableString("> Dish: \n");
+                    DishName.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, DishName.length(), 0);
+
+                    SpannableString DishDescription = new SpannableString("> Dishes:\n");
+                    DishDescription.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, DishDescription.length(), 0);
+                    t_view.append(DishDescription);
+                    for(int i = 0; i < customerOrderList.get(pos).getOrderdishes().size(); i++ )
+                    {
+
+
+
+                        //  t_view.append(DishName);
+                        //  t_view.append(customerOrderList.get(pos).getOrderdishes().get(i).getDishes().getName()+ "\n");
+
+                        t_view.append(""+customerOrderList.get(pos).getOrderdishes().get(i).getDishes().getName()+ "\n");
+
+
+
+
+                    }
+                    t_view.setTextSize(15);
+                    //  t_view.setTextColor(primary_text_material_dark);
+                    s_view.addView(t_view);
+
+//                    Toast.makeText(context, "Pressed Order Item", Toast.LENGTH_SHORT).show();
                     final AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                    alert.setTitle("Accept order?");
-                    alert.setMessage("Are you sure you want to accept order?");
-                    alert.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+                    alert.setTitle("Done Order");
+                    // alert.setMessage(customerOrderList.get(pos).getOrderdishes().get(pos).getDishes().getDescription());
+                    alert.setView(s_view);
+                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            Toast.makeText(context, "Clicked Yes", Toast.LENGTH_SHORT).show();
+
+                            //     setOrderStatus(foodmakerOrderList.get(pos).getOrderId());
+
+
+                        }
+                    });
+                    alert.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                            alert.setTitle("order accepted");
-                            alert.setMessage("Are want to show map?");
-                            alert.setPositiveButton("Show Map", new DialogInterface.OnClickListener() {
-                                @Override
+                            //  Toast.makeText(context, "Cancel", Toast.LENGTH_SHORT).show();
+
+                            AlertDialog.Builder alert2 = new AlertDialog.Builder(context);
+                            alert2.setTitle("Are You sure to cancel the order");
+                            alert2.setPositiveButton("Yes!", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    orderService.setRiderRequestStatus(1,2).enqueue(new Callback<ApiResponse>() {
+
+                                    //   Toast.makeText(context, "Cancelled", Toast.LENGTH_SHORT).show();
+
+                                    //     setOrderStatus(foodmakerOrderList.get(pos).getOrderId());
+                                    orderService.updateOrderStatus(4, customerOrderList.get(pos).getOrderId()).enqueue(new Callback<Void>() {
                                         @Override
-                                        public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                                            Toast.makeText(context, "order acknowledged", Toast.LENGTH_SHORT).show();
+                                        public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                                            Toast.makeText(context, "Order status changed to 4", Toast.LENGTH_LONG).show();
+                                            removeAt(pos);
+
                                         }
 
                                         @Override
-                                        public void onFailure(Call<ApiResponse> call, Throwable t) {
-                                            Toast.makeText(context, "connection problem", Toast.LENGTH_SHORT).show();
+                                        public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                                            Toast.makeText(context, "Response Failed", Toast.LENGTH_SHORT).show();
+                                            //  Log.d("TAG", "failed");
                                         }
                                     });
-                                    openMap(pos);
-                                    //api call for status change
-                                }
-                            });
-                            alert.setNegativeButton("Reached", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    orderService.updateOrderStatus(3,orderList.get(pos).getOrderId()).enqueue(new Callback<Void>() {
-                                        @Override
-                                        public void onResponse(Call<Void> call, Response<Void> response) {
-                                            Toast.makeText(context, "order acknowledged", Toast.LENGTH_SHORT).show();
-                                        }
 
-                                        @Override
-                                        public void onFailure(Call<Void> call, Throwable t) {
-                                            Toast.makeText(context, "connection problem", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
                                 }
                             });
-                            alert.show();
+                            alert2.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Toast.makeText(context, "Clicked No", Toast.LENGTH_SHORT).show();
+
+                                }
+                            });
+                            alert2.show();
                         }
                     });
-                    alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
+                 *//*   alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                       dialog.dismiss();
+                            Toast.makeText(context, "Clicked No", Toast.LENGTH_SHORT).show();
+
                         }
-                    });
+                    });*//*
+
                     alert.show();
+*/
+
                 }
             });
         }
@@ -275,13 +300,17 @@ public class AcknowledgedRequestActivity extends AppCompatActivity {
             notifyItemRangeChanged(position, customerOrderList.size());
         }
 
+
+
         class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
 
             ImageView image;
             TextView title;
             TextView price;
 
             int quantity;
+
 
             private ItemClickListener itemClickListener;
 

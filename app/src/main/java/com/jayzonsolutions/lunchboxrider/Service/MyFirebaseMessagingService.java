@@ -33,7 +33,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private NotificationUtils notificationUtils;
 
-/*    @Override
+    @Override
     public void onNewToken(String s) {
         super.onNewToken(s);
         Log.d("NEW_TOKEN", s);
@@ -54,7 +54,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         SharedPreferences.Editor editor = pref.edit();
         editor.putString("regId", token);
         editor.commit();
-    }*/
+    }
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.e(TAG, "From: " + remoteMessage.getFrom());
