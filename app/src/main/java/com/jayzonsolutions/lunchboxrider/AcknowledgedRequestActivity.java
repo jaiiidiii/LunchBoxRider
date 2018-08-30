@@ -212,38 +212,38 @@ public class AcknowledgedRequestActivity extends AppCompatActivity {
                     alert.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            orderService.assignOrder(1,orderList.get(pos).getOrderId()).enqueue(new Callback<ApiResponse>() {
+                                @Override
+                                public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                                    Toast.makeText(context, "order acknowledged", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onFailure(Call<ApiResponse> call, Throwable t) {
+                                    Toast.makeText(context, "connection problem", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
                             AlertDialog.Builder alert = new AlertDialog.Builder(context);
                             alert.setTitle("order accepted");
-                            alert.setMessage("Are want to show map?");
+                            alert.setMessage("Are you want to show map?");
                             alert.setPositiveButton("Show Map", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    orderService.setRiderRequestStatus(1,2).enqueue(new Callback<ApiResponse>() {
-                                        @Override
-                                        public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                                            Toast.makeText(context, "order acknowledged", Toast.LENGTH_SHORT).show();
-                                        }
-
-                                        @Override
-                                        public void onFailure(Call<ApiResponse> call, Throwable t) {
-                                            Toast.makeText(context, "connection problem", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
                                     openMap(pos);
-                                    //api call for status change
                                 }
                             });
                             alert.setNegativeButton("Reached", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    orderService.updateOrderStatus(3,orderList.get(pos).getOrderId()).enqueue(new Callback<Void>() {
+                                    orderService.setRiderRequestStatus(1,3,orderList.get(pos).getOrderId()).enqueue(new Callback<ApiResponse>() {
                                         @Override
-                                        public void onResponse(Call<Void> call, Response<Void> response) {
-                                            Toast.makeText(context, "order acknowledged", Toast.LENGTH_SHORT).show();
+                                        public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                                            Toast.makeText(context, "reached", Toast.LENGTH_SHORT).show();
                                         }
 
                                         @Override
-                                        public void onFailure(Call<Void> call, Throwable t) {
+                                        public void onFailure(Call<ApiResponse> call, Throwable t) {
                                             Toast.makeText(context, "connection problem", Toast.LENGTH_SHORT).show();
                                         }
                                     });

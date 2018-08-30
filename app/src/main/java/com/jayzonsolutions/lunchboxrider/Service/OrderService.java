@@ -46,6 +46,9 @@ public interface OrderService {
     Call<List<Order>> riderOrders(@Query("riderId") Integer riderId);
 
     @GET("rider/set-rider-request-status")
-    Call<ApiResponse> setRiderRequestStatus(@Query("riderId") Integer riderId, @Query("status") Integer status);
+    Call<ApiResponse> setRiderRequestStatus(@Query("riderId") Integer riderId, @Query("status") Integer status,@Query("orderId") Integer orderId);
+
+    @GET("order/assign-order")
+    Call<ApiResponse> assignOrder(@Query("riderId") Integer riderId,@Query("orderId") Integer orderId);
 
 }
