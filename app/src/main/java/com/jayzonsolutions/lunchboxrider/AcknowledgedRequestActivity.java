@@ -63,7 +63,7 @@ public class AcknowledgedRequestActivity extends AppCompatActivity {
 
 
         orderService = ApiUtils.getOrderService();
-         orderService.riderOrders(1).enqueue(new Callback<List<Order>>() {
+         orderService.riderOrders(1,2).enqueue(new Callback<List<Order>>() {
 
             @Override
             public void onResponse(@NonNull Call<List<Order>> call, @NonNull Response<List<Order>> response) {
@@ -206,25 +206,8 @@ public class AcknowledgedRequestActivity extends AppCompatActivity {
                     // Create a Uri from an intent string. Use the result to create an Intent.
                     //        Uri gmmIntentUri = Uri.parse("geo:24.841998,67.081242?z=20");
 
-                    final AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                    alert.setTitle("Accept order?");
-                    alert.setMessage("Are you sure you want to accept order?");
-                    alert.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            orderService.assignOrder(1,orderList.get(pos).getOrderId()).enqueue(new Callback<ApiResponse>() {
-                                @Override
-                                public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                                    Toast.makeText(context, "order acknowledged", Toast.LENGTH_SHORT).show();
-                                }
 
-                                @Override
-                                public void onFailure(Call<ApiResponse> call, Throwable t) {
-                                    Toast.makeText(context, "connection problem", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
-                            AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                            final AlertDialog.Builder alert = new AlertDialog.Builder(context);
                             alert.setTitle("order accepted");
                             alert.setMessage("Are you want to show map?");
                             alert.setPositiveButton("Show Map", new DialogInterface.OnClickListener() {
@@ -239,7 +222,8 @@ public class AcknowledgedRequestActivity extends AppCompatActivity {
                                     orderService.setRiderRequestStatus(1,3,orderList.get(pos).getOrderId()).enqueue(new Callback<ApiResponse>() {
                                         @Override
                                         public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                                            Toast.makeText(context, "reached", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(context, "order acknowledged", Toast.LENGTH_SHORT).show();
+                                            removeAt(pos);
                                         }
 
                                         @Override
@@ -249,15 +233,7 @@ public class AcknowledgedRequestActivity extends AppCompatActivity {
                                     });
                                 }
                             });
-                            alert.show();
-                        }
-                    });
-                    alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                       dialog.dismiss();
-                        }
-                    });
+
                     alert.show();
                 }
             });

@@ -55,7 +55,7 @@ public class ToPickActivity extends AppCompatActivity {
 
 
         orderService = ApiUtils.getOrderService();
-         orderService.riderOrders(1).enqueue(new Callback<List<Order>>() {
+         orderService.riderOrders(1,5).enqueue(new Callback<List<Order>>() {
 
             @Override
             public void onResponse(@NonNull Call<List<Order>> call, @NonNull Response<List<Order>> response) {

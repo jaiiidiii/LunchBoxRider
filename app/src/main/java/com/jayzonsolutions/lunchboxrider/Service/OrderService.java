@@ -43,7 +43,7 @@ public interface OrderService {
     Call<Void> updateOrderRating(@Query("orderRating") Integer orderRating, @Query("orderId") Integer orderId);
 
     @GET("rider/get-rider-orders")
-    Call<List<Order>> riderOrders(@Query("riderId") Integer riderId);
+    Call<List<Order>> riderOrders(@Query("riderId") Integer riderId,@Query("statusId") Integer statusId);
 
     @GET("rider/set-rider-request-status")
     Call<ApiResponse> setRiderRequestStatus(@Query("riderId") Integer riderId, @Query("status") Integer status,@Query("orderId") Integer orderId);
