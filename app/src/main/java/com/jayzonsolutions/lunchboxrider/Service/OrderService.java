@@ -51,4 +51,7 @@ public interface OrderService {
     @GET("order/assign-order")
     Call<ApiResponse> assignOrder(@Query("riderId") Integer riderId,@Query("orderId") Integer orderId);
 
+    @GET("order/get-order")
+    Call<Order> getOrderByOrderId(@Query("id") Integer orderId);
+
 }

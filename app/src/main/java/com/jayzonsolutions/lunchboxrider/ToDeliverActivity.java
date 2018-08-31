@@ -231,6 +231,18 @@ public class ToDeliverActivity extends AppCompatActivity {
                                     Toast.makeText(context, "connection problem", Toast.LENGTH_SHORT).show();
                                 }
                             });
+                            orderService.updateOrderStatus(3,orderList.get(pos).getOrderId()).enqueue(new Callback<Void>() {
+                                @Override
+                                public void onResponse(Call<Void> call, Response<Void> response) {
+                                    Toast.makeText(context, "order acknowledged", Toast.LENGTH_SHORT).show();
+                                    removeAt(pos);
+                                }
+
+                                @Override
+                                public void onFailure(Call<Void> call, Throwable t) {
+                                    Toast.makeText(context, "connection problem", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                     });
 
