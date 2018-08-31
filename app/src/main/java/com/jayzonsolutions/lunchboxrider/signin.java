@@ -27,6 +27,7 @@ public class signin extends AppCompatActivity {
     MyTextView login;
     MyTextView test;
     MyTextView getFoodmakerList;
+
     String DeviceID = "";
 
     private RiderService riderService;
@@ -55,24 +56,27 @@ public class signin extends AppCompatActivity {
 
                 //  Toast.makeText(signin.this,"clicked",Toast.LENGTH_LONG).show();
                 //api call
-                //     if (validate()) {
+                   if (validate()) {
 
-/*
                 if(useremail.getText().toString()=="" ||userpass.getText().toString() == ""){
                     Toast.makeText(signin.this, "Fields are required can't be empty", Toast.LENGTH_LONG).show();
                     return;
                 }
-*/
 
-                riderService.riderLogin("ali@gmail.com", "123456",DeviceID).enqueue(new Callback<Rider>() {
-                    // mAPIService.savePost(useremail.getText().toString(), userpass.getText().toString(),DeviceID).enqueue(new Callback<Customer>() {
-                    @Override
+                String userEmail = useremail.getText().toString();
+                String userPassword = userpass.getText().toString();
+
+
+              //  riderService.riderLogin("ali@gmail.com", "123456",DeviceID).enqueue(new Callback<Rider>() {
+                       riderService.riderLogin(userEmail, userPassword,DeviceID).enqueue(new Callback<Rider>() {
+
+                           @Override
                     public void onResponse(@NonNull Call<Rider> call, @NonNull Response<Rider> response) {
                         if(response.body() == null){
                             Toast.makeText(signin.this, "Email Address or Password is incorrect", Toast.LENGTH_LONG).show();
                         }else{
                             Toast.makeText(signin.this, "Successfully Logged in", Toast.LENGTH_LONG).show();
-                          //  Constant.customer = response.body();
+                            Constant.rider = response.body();
                             Intent intent = new Intent(signin.this, MainActivity.class);
                             startActivity(intent);
                         }
@@ -88,7 +92,7 @@ public class signin extends AppCompatActivity {
                 });
 
 
-                //   }
+                   }
                 //api call end
 
                /* Intent intent = new Intent(signin.this, customerActivity.class);
@@ -141,6 +145,14 @@ public class signin extends AppCompatActivity {
             DeviceID = regId;
         } else{}
         //Toast.makeText(this, "Firebase Reg Id is not received yet!", Toast.LENGTH_SHORT).show();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(Constant.rider != null){
+            Intent in =new Intent(this,MainActivity.class);
+            startActivity(in);
+        }
     }
 
 }
